@@ -53,4 +53,8 @@ public class Medico {
     public Especialidade getEspecialidade() {
         return especialidade;
     }
+
+    public String getId() {
+        return id;
+    }
 }
