@@ -1,7 +1,7 @@
 package med.fisio.api.medico;
 
 public record DadosListagemMedico(
-        String id,
+        Long id,
         String nome,
                                    String email,
                                    String crm,

@@ -1,4 +1,12 @@
 package med.fisio.api.medico;
 
-public record DadosAtualizacaoMedico {
+import jakarta.validation.constraints.NotNull;
+import med.fisio.api.endereco.DadosEndereco;
+
+public record DadosAtualizacaoMedico(
+        @NotNull
+        Long id,
+                                     String nome,
+                                     String telefone,
+                                     DadosEndereco endereco) {
 }
