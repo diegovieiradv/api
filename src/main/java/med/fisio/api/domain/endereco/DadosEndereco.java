@@ -1,4 +1,4 @@
-package med.fisio.api.endereco;
+package med.fisio.api.domain.endereco;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;

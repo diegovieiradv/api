@@ -1,4 +1,4 @@
-package med.fisio.api.medico;
+package med.fisio.api.domain.medico;
 
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import med.fisio.api.endereco.Endereco;
+import med.fisio.api.domain.endereco.Endereco;
 
 @Table(name= "medicos")
 @Entity(name = "Medico")
