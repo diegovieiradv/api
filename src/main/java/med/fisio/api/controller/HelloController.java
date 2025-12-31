@@ -12,4 +12,4 @@ package med.fisio.api.controller;
 //    public String ola() {
 //        return "Hello,  Mundo!";
 //    }
-//}
+Insomnia_2025-12-31.yaml
