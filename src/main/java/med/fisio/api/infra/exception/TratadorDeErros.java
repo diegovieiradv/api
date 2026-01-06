@@ -1,4 +1,4 @@
-package med.fisio.api.infra;
+package med.fisio.api.infra.exception;
 
 
 import jakarta.persistence.EntityNotFoundException;
