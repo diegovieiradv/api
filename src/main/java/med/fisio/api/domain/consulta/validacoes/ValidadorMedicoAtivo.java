@@ -1,0 +1,24 @@
+package med.fisio.api.domain.consulta.validacoes;
+
+import jakarta.validation.ValidationException;
+import med.fisio.api.domain.consulta.DadosAgendamentoConsulta;
+import med.fisio.api.domain.medico.MedicoRepository;
+
+public class ValidadorMedicoAtivo {
+
+    private MedicoRepository repository;
+
+    public void validar(DadosAgendamentoConsulta dados){
+
+        if(dados.idMedico() == null){
+            return;
+        }
+
+        var medicoEstaAtivo = repository.findAtivoById(dados.idMedico());
+
+        if(!(boolean) medicoEstaAtivo){
+            throw new ValidationException("Médico não ativo");
+        }
+
+    }
+}
