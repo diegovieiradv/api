@@ -3,9 +3,14 @@ package med.fisio.api.domain.consulta.validacoes;
 import jakarta.validation.ValidationException;
 import med.fisio.api.domain.consulta.DadosAgendamentoConsulta;
 import med.fisio.api.domain.paciente.PacienteRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-public class ValidadorPacienteAtivo {
+@Component
+public class ValidadorPacienteAtivo implements ValidadorAgendamentoDeConsulta{
 
+
+    @Autowired
     private PacienteRepository repository;
 
     public void validar(DadosAgendamentoConsulta dados){

@@ -1,12 +1,15 @@
 package med.fisio.api.domain.consulta;
 
+import med.fisio.api.domain.ValidacaoException;
+import med.fisio.api.domain.consulta.validacoes.ValidadorAgendamentoDeConsulta;
 import med.fisio.api.domain.medico.Medico;
 import med.fisio.api.domain.medico.MedicoRepository;
 import med.fisio.api.domain.paciente.PacienteRepository;
-import med.fisio.api.domain.validacaoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class AgendaDeConsultas {
@@ -20,21 +23,28 @@ public class AgendaDeConsultas {
     @Autowired
     private PacienteRepository pacienteRepository;
 
-    public void agendar(DadosAgendamentoConsulta dados) {
+    @Autowired
+    private List<ValidadorAgendamentoDeConsulta> validadores;
+
+    public DadosDetalhamentoConsulta agendar(DadosAgendamentoConsulta dados) {
 
         if (!pacienteRepository.existsById(dados.idPaciente())) {
-            throw new validacaoException("Id do paciente informado nao existe");
+            throw new ValidacaoException("Id do paciente informado nao existe");
         }
 
         if (dados.idMedico() != null && !medicoRepository.existsById(dados.idMedico())) {
-            throw new validacaoException("Id do medico informado não existe");
+            throw new ValidacaoException("Id do medico informado não existe");
         }
+
+        validadores.forEach(validador -> validador.validar(dados));
 
         var paciente = pacienteRepository.getReferenceById(dados.idPaciente());
         var medico = escolherMedico(dados);
 
         var consulta = new Consulta(null, medico, paciente, dados.data());
         consultaRepository.save(consulta);
+
+        return new DadosDetalhamentoConsulta(consulta);
     }
 
     private Medico escolherMedico(DadosAgendamentoConsulta dados) {
@@ -44,7 +54,7 @@ public class AgendaDeConsultas {
         }
 
         if (dados.especialidade() == null) {
-            throw new validacaoException(
+            throw new ValidacaoException(
                     "Especialidade é obrigatória quando o médico não for escolhido!"
             );
         }
@@ -56,7 +66,7 @@ public class AgendaDeConsultas {
         );
 
         if (page.isEmpty()) {
-            throw new validacaoException("Nenhum médico disponível nessa data");
+            throw new ValidacaoException("Nenhum médico disponível nessa data");
         }
 
         return page.getContent().get(0);
